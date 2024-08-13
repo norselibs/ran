@@ -47,6 +47,17 @@ public class Clazz<T> {
 		throw new RuntimeException("Don't know what to do with type: " + type.getClass().getName());
 	}
 
+	public static Clazz raw(Type type) {
+		if (type instanceof ParameterizedType) {
+			ParameterizedType parameterizedType = ((ParameterizedType) type);
+
+			return Clazz.of(parameterizedType.getRawType());
+		} else if (type instanceof Class) {
+			return Clazz.of((Class)type);
+		}
+		throw new RuntimeException("Don't know what to do with type: "+type.getClass().getName());
+	}
+
 	public static Clazz getShort() {
 		return Clazz.of(short.class);
 	}

@@ -28,10 +28,12 @@ public class Primitives {
 
 	private static final Map<Class, Primitive> primitives = new HashMap<>();
 	private static final Map<Class, Class> boxedToPrimitive = new HashMap<>();
+	private static final Map<String,Class> primitiveByDescriptor = new HashMap<>();
 
 	private static void add(Primitive primitive) {
 		primitives.put(primitive.primitive, primitive);
 		boxedToPrimitive.put(primitive.boxed, primitive.primitive);
+		primitiveByDescriptor.putIfAbsent(primitive.descriptor, primitive.primitive);
 	}
 
 	private static Object getDefaultValue(Class clazz) {
@@ -71,6 +73,14 @@ public class Primitives {
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	public static Primitive get(String classString) {
+		if (primitiveByDescriptor.containsKey(classString)) {
+			return get(primitiveByDescriptor.get(classString));
+		}
+
+		return get(Clazz.of(classString).clazz);
 	}
 
 	public static Primitive get(Class clazz) {

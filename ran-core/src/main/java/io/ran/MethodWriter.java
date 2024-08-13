@@ -47,6 +47,14 @@ public class MethodWriter {
 		}
 	}
 
+	public void load(String arg, Clazz type) {
+		if (type.isPrimitive()) {
+			mv.visitVarInsn(Opcodes.ILOAD + type.getPrimitiveOffset(), variableMap.get(arg));
+		} else {
+			load(arg);
+		}
+	}
+
 	public void invoke(Method method) {
 		invoke(new MethodSignature(method));
 	}
@@ -78,6 +86,10 @@ public class MethodWriter {
 
 	public void dup() {
 		mv.visitInsn(Opcodes.DUP);
+	}
+
+	public void pop() {
+		mv.visitInsn(Opcodes.POP);
 	}
 
 	public void push(String s) {
@@ -183,6 +195,36 @@ public class MethodWriter {
 		int i = locals++;
 		variableMap.put(name, i);
 		objectStore(i);
+	}
+
+	public void objectVar(String name, Clazz type) {
+		int i = locals++;
+		variableMap.put(name, i);
+		store(i, type);
+	}
+
+	private void store(int pos, Clazz type) {
+		if (locals <= pos) {
+			locals = pos+1;
+		}
+		if(type.isPrimitive()) {
+			switch (type.getDescriptor()) {
+				case "I":
+					mv.visitVarInsn(Opcodes.ISTORE, pos);
+					break;
+				case "L":
+					mv.visitVarInsn(Opcodes.LSTORE, pos);
+					break;
+				case "F":
+					mv.visitVarInsn(Opcodes.FSTORE, pos);
+					break;
+				case "D":
+					mv.visitVarInsn(Opcodes.DSTORE, pos);
+					break;
+			}
+		} else {
+			mv.visitVarInsn(Opcodes.ASTORE, pos);
+		}
 	}
 
 	public void objectStore(int pos) {
