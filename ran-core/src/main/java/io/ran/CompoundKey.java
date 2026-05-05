@@ -42,7 +42,7 @@ public class CompoundKey {
 		if (values.size() != that.values.size()) {
 			return false;
 		}
-		return values.containsAll(that.values);
+		return values.equals(that.values);
 	}
 
 	@Override

@@ -139,10 +139,13 @@ public class MethodWriter {
 	}
 
 	public <E extends Throwable> void ifElse(ThrowingConsumer<MethodWriter, E> t, ThrowingConsumer<MethodWriter, E> f) throws E {
-//		push(false);
+		Label elseLabel = new Label();
 		Label endif = new Label();
-		mv.visitJumpInsn(Opcodes.IFEQ, endif);
+		mv.visitJumpInsn(Opcodes.IFEQ, elseLabel);
 		t.accept(this);
+		mv.visitJumpInsn(Opcodes.GOTO, endif);
+		mv.visitLabel(elseLabel);
+		f.accept(this);
 		mv.visitLabel(endif);
 	}
 

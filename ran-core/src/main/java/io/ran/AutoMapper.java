@@ -12,8 +12,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class AutoMapper {
-	private static Map<Class, Class> mapped = new HashMap<>();
-	private static Map<Class, Class> query = new HashMap<>();
+	private static volatile Map<Class, Class> mapped = new HashMap<>();
+	private static volatile Map<Class, Class> query = new HashMap<>();
 	private static MapperGenerator mapperGenerator = new MapperGenerator();
 	private static AutoMapperClassLoader classLoader = new AutoMapperClassLoader(AutoMapper.class.getClassLoader());
 

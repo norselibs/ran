@@ -57,7 +57,7 @@ public class KeySet {
 
 	public KeySet add(Field field) {
 		if (field.order == -1) {
-			field.order = parts.size() - 1;
+			field.order = parts.size();
 		}
 		parts.add(field);
 		return this;

@@ -28,6 +28,9 @@ public class Token {
 	}
 
 	static public Token get(String anyFormat) {
+		if (anyFormat == null || anyFormat.isEmpty()) {
+			throw new InvalidTokenException("Token string must not be null or empty");
+		}
 		if (anyFormat.toLowerCase().contains(" ")) {
 			return humanReadable(anyFormat);
 		}

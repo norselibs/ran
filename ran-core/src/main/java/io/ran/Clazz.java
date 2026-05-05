@@ -238,18 +238,17 @@ public class Clazz<T> {
 	}
 
 	public String classRepresentation() {
+		if (clazz == null) {
+			return className;
+		}
 		if (clazz.isPrimitive()) {
 			return getSimpleName();
 		}
-		if (clazz != null) {
-			String simpleName = getSimpleName();
-			if (clazz.getEnclosingClass() != null) {
-				simpleName = clazz.getEnclosingClass().getSimpleName() + "." + simpleName;
-			}
-			return simpleName + (generics.isEmpty() ? "" : "<" + generics.stream().map(Clazz::classRepresentation).collect(Collectors.joining(", ")) + ">");
-		} else {
-			return className;
+		String simpleName = getSimpleName();
+		if (clazz.getEnclosingClass() != null) {
+			simpleName = clazz.getEnclosingClass().getSimpleName() + "." + simpleName;
 		}
+		return simpleName + (generics.isEmpty() ? "" : "<" + generics.stream().map(Clazz::classRepresentation).collect(Collectors.joining(", ")) + ">");
 	}
 
 	public String representation() {

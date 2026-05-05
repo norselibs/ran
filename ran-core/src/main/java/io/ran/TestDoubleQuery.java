@@ -117,7 +117,7 @@ public abstract class TestDoubleQuery<T, Z extends CrudRepository.InlineQuery<T,
 		X value = getValue(property, o);
 		if (value instanceof String) {
 			return (X) ((String) value).toLowerCase();
-		} else if (value.getClass().isEnum()) {
+		} else if (value != null && value.getClass().isEnum()) {
 			return (X) value.toString().toLowerCase();
 		}
 		return value;

@@ -134,7 +134,7 @@ public class TypeDescriberImpl<T> implements TypeDescriber<T> {
 			if (relation != null) {
 				Token token = Token.camelHump(field.getName());
 				Token idToken = Token.camelHump(field.getName() + "Id");
-				boolean isCollection = field.getType().isAssignableFrom(Collection.class) || field.getType().isAssignableFrom(List.class);
+				boolean isCollection = Collection.class.isAssignableFrom(field.getType());
 
 
 				describers.add(describeRelation(c, relation, token, Arrays.asList(relation.fields()), Arrays.asList(relation.relationFields()), isCollection ? Clazz.of(field).generics.get(0) : Clazz.of(field), isCollection ? Clazz.of(field) : null, Clazz.of(relation.via())));

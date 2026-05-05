@@ -376,7 +376,7 @@ public class Property<T> {
 		}
 
 		public PropertyValue get(Token token) {
-			return stream().filter(pv -> pv.getProperty().getToken().equals(token)).map(pv -> (PropertyValue) pv).findFirst().get();
+			return stream().filter(pv -> pv.getProperty().getToken().equals(token)).map(pv -> (PropertyValue) pv).findFirst().orElseThrow(() -> new RuntimeException("Could not find property value for token: " + token));
 		}
 
 		public Property<T> getProperty() {
